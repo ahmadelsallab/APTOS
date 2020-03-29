@@ -176,7 +176,7 @@ In some cases, the confusion is slight (see the probabilities of 2 and 3 are clo
 
 In some cases, although correctly classified, but the features capture small nodules. Not sure if this is due to sensitivity to small variations, or it’s correct retina feature? Needs a specialist!
 
-![small_model_ana_4_](imgs/small_model_ana_4_.png)
+![small_model_ana_4_](imgs/small_model_ana_4_ .png)
 In other cases, the features actually reflects luminance/light or shadows effects. This is reflects high sensitivity of the learnt features, so it's not capturing the class specific features.
 
 
