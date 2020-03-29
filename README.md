@@ -164,6 +164,21 @@ QWKP is around 0.77. Looking on the [leaderboard](https://www.kaggle.com/c/aptos
 
 Let's look on the learnt features anyway:
 
+![small_model_ana_1](imgs/small_model_ana_1.png)
+
+It is clear from the confusion matrix, how class (0=No DR) and (2=Moderate), dominate the predictions. This is also clear in the visualizations, where the main learnt features is the pupile location, which is the dominant feature of the negativ/normal classes that dominate the data.
+
+![small_model_ana_2](imgs/small_model_ana_2.png)
+
+In some cases, the confusion is slight (see the probabilities of 2 and 3 are close) In such cases, the features are very good (cotton patterns are detected).
+
+![small_model_ana_3](imgs/small_model_ana_3.png)
+
+In some cases, although correctly classified, but the features capture small nodules. Not sure if this is due to sensitivity to small variations, or it’s correct retina feature? Needs a specialist!
+
+![small_model_ana_4](imgs/small_model_ana_4.png)
+In other cases, the features actually reflects luminance/light or shadows effects. This is reflects high sensitivity of the learnt features, so it's not capturing the class specific features.
+
 
 
 ## ResNet50 model
