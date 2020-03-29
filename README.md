@@ -47,6 +47,11 @@ In this work, I was particularly interested in using AI and CV (mainly ConvNets)
 ![APTOS_AI_Explanation](imgs/APTOS_AI_Explanation_2.png)
 
 # Data
+The data is distributed as follows:
+
+|Dataset|Number of scans|
+|-------|:--------------|
+|  3662 |     1928      |
 
 Classes are:
 0 - No DR
@@ -65,7 +70,9 @@ __Class imabalance__
 Before starting, very basic EDA shows class imabalnce issue:
 ![Class_imbalance](imgs/Class_imbalance.png)
 
-This will be treated later.
+This is a common characteristic of many medical/healthcare datasets. The negative/normal case is usually the dominant one, which is intuitive. The positive cases are rare.
+
+This issue will be treated later.
 
 
 # Evaluation metric
@@ -143,7 +150,25 @@ model.add(layers.Dense(512, activation='relu'))
 model.add(layers.Dense(n_classes, activation='softmax'))
 ```
 
+![imgs/small_model_curves.png]
+
+Looking on the learning curve, the models seems to perform well. No sign of overfitting. It's the opposite actually, test results are better. This encourages to have a bigger model capacity.
+
+However, this result is tricky. The accuracy is good because of the majority classes dominating. This advises against depending on accuracy
+
+![conf_matrix_imbalance](imgs/conf_matrix_imbalance.png)
+
+QWKP is around 0.77. Looking on the [leaderboard](https://www.kaggle.com/c/aptos2019-blindness-detection/leaderboard), the top QWKP was around 0.93. Which means the simple model is performing poorly.
+
+### Visualization of learnt features
+
+Let's look on the learnt features anyway:
+
+
+
 ## ResNet50 model
+
+### Visualization of learnt features
 
 ## Optimization
 ### ReduceLROnPlateau
