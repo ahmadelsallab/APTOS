@@ -293,6 +293,15 @@ In the above case, the correct class is (1=Mild) but the prediction is (2=Modera
 
 The above two predictions are correct. The defective patterns are stil detected, without particular attention to the pupil feature (which is common in all classes so it's not good to detect). This is a good sign.
 
+Moreover, probabilities become more within a local region of classes, which justifies the good QWKP result.
+
+# Conclusion
+
+In this tutorial, we went through an important application of computer vision, which is medical imaging diagnosis, in this case the Diabetic Retina. The visualization of the learnt feature maps using Grad-CAM method explains a lot of features, according to the well known DR patterns. The metric used in this competetion is interesting, and gives an idea about the importance of choosing the good metric for such kind of problems of predicting ordinal target variables. Also, this application exposes us to some important problems in ML like class imbalance, which is common in healthcare and medical diagnosis problems. Some tricks like class weighted loss, reducing learning rate on plateau, cyclic learning rate,...etc improve the QWKP with around 10%.
+
+# Important note:
+I'm not a doctor to judge, so the visualizations here might be completely random features in the end. However, the good QWKP results suggest that the model captured good results. But it should be emphasized that, a more trained expert eye should validate those assumptions.
+
 
 
 
