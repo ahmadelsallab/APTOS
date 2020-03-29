@@ -22,4 +22,15 @@ According to [this article](https://www.diabetes.co.uk/diabetes-complications/di
 - According to the NHS, 1,280 new cases of blindness caused by diabetic retinopathy are reported each year in England alone, while a further 4,200 people in the country are thought to be at risk of retinopathy-related vision loss.
 All people with diabetes should have a dilated eye examination at least once every year to check for diabetic retinopathy.
 
+## Why Computer Vision for DR diagnosis?
+
+According to the [APTOS Kaggle Comptetion home](https://www.kaggle.com/c/aptos2019-blindness-detection) page:
+
+_Millions of people suffer from diabetic retinopathy, the leading cause of blindness among working aged adults. Aravind Eye Hospital in India hopes to detect and prevent this disease among people living in rural areas where medical screening is difficult to conduct. _
+
+The need to AI:
+
+_Currently, Aravind technicians travel to these rural areas to capture images and then rely on highly trained doctors to review the images and provide diagnosis. Their goal is to scale their efforts through technology; to gain the ability to automatically screen images for disease and provide information on how severe the condition may be._
+
+
 
