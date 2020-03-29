@@ -4,7 +4,7 @@ ___Detect diabetic retinopathy to stop blindness before it's too late___
 ## What is Diabetic Retinopathy (DR)?
 
 <p align="center">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQEc58FUs_t1K53muvLuPnMGcV6jEy4OfSSqPxkEe7-7k-J3_Z0" />
+  <img src="imgs/DR.png" />
 </p>
 
 _Source: [Medical Diagnosis with a Convolutional Neural Network, TowardsDataScience](https://medium.com/m/global-identity?redirectUrl=https%3A%2F%2Ftowardsdatascience.com%2Fmedical-diagnosis-with-a-convolutional-neural-network-ab0b6b455a20)_
