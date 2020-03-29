@@ -71,18 +71,45 @@ This will be treated later.
 # Evaluation metric
 The metric used is Quadratic Weighted Kappa ([QWKP](https://www.kaggle.com/c/aptos2019-blindness-detection/overview/evaluation)). It is well explained in this [kernel](https://www.kaggle.com/xhlulu/aptos-2019-densenet-keras-starter).
 
+
+The [wikipedia page](https://en.wikipedia.org/wiki/Cohen%27s_kappa) offer a very concise explanation:
+_"The weighted kappa allows disagreements to be weighted differently and is especially useful when codes are ordered. Three matrices are involved, the matrix of observed scores, the matrix of expected scores based on chance agreement, and the weight matrix. Weight matrix cells located on the diagonal (upper-left to bottom-right) represent agreement and thus contain zeros. Off-diagonal cells contain weights indicating the seriousness of that disagreement."_
+
 The evaluation metric is of particular interest. The essence of QWKP is to favor prediction mistakes that are close to the correct answer than the ones far from it. In other words, if the correct class is "Mild", while the prediction is "Moderate", this is better than if the prediction is "Severe". This is intuitive, specially for "Ordinal" target variables, where classes represent a mark on an ordered discrete scale, representing severity as in our case. This is a common case in many medical diagnosis problems, like in Radiology or Lab reports for example.
 
 If you navigate in the Kaggle kernels of APTOS competetion, you will see three main approaches to specify the loss function and network output. This relates to problem formulation as one of the following:
 
-| Problem | Loss | Network output | Comment|
-|---------|:-----|:---------------|:-------|
-| Multi-class | Cross Entropy | Softmax/Class probabilities | Normal choice. But not good for QWKP, since CE favors only the correct class|
-| Regression | RMSE | Linear/Relu | If RMSE is small enough, this is good since the error/confusion will at max to the neighbor class|
-| Multi-label | Binary Cross Entropy | Sigmoid | By formatting the ground truth labels such that the label is all ones until the correct prediction then all 0's. This encourages the model to output the correct class or at least the neighboring ones|
+| Problem | Loss | Network output | Comment| Example |
+|---------|:-----|:---------------|:-------|:--------|
+| Multi-class | Cross Entropy | Softmax/Class probabilities | Normal choice. But not good for QWKP, since CE favors only the correct class| [kernel kernel](https://www.kaggle.com/mathormad/aptos-resnet50-baseline)|
+| Regression | RMSE | Linear/Relu | If RMSE is small enough, this is good since the error/confusion will at max to the neighbor class| [kaggle kernel](https://www.kaggle.com/carlolepelaars/efficientnetb5-with-keras-aptos-2019)|
+| Multi-label | Binary Cross Entropy | Sigmoid | By formatting the ground truth labels such that the label is all ones until the correct prediction then all 0's. This encourages the model to output the correct class or at least the neighboring ones| [kernel kernel](https://www.kaggle.com/lextoumbourou/blindness-detection-resnet34-ordinal-targets)|
 
-The [wikipedia page](https://en.wikipedia.org/wiki/Cohen%27s_kappa) offer a very concise explanation:
-_"The weighted kappa allows disagreements to be weighted differently and is especially useful when codes are ordered. Three matrices are involved, the matrix of observed scores, the matrix of expected scores based on chance agreement, and the weight matrix. Weight matrix cells located on the diagonal (upper-left to bottom-right) represent agreement and thus contain zeros. Off-diagonal cells contain weights indicating the seriousness of that disagreement."_
+In theory, formulating the problem as regression or multi-label classification seems better than multi-class classification, since cross entropy loss always focus on errors that caused the _correct_ label _not_ to be predicted, and hence optimizing in that direction. In other words, if the prediction is the class next to the correct one, this makes no difference to the cross entropy loss. 
+
+On contrary, the regression RMSE loss, would try to output the correct number +/- some error (RMSE). If this error is small enough, then at worst we get confused only to the neighbor class. This is good to QWKP score.
+
+Also, multi-label formulation would format the targets as follows:
+0 --> 1,0,0,0,0
+
+1 --> 1,1,0,0,0
+
+2 --> 1,1,1,0,0
+
+3 --> 1,1,1,1,0
+
+4 --> 1,1,1,1,1
+
+Which can be visualized as an ascending progress bar, representing severity. The loss is then Binary Cross Entropyt (BCE) over each output neuron (Sigmoid). This should encourage the model to output high values at the correct class, or at worst around it, which is also good for QWKP. 
+
+The problem with this approach is the _decoding_ process. In normal cases, we would take the index of the last predicted `1` in the output, which is immediately followed by `0`. The assumption here is that the model never outputs a `0` followed by `1`, which breaks the ordered progress bar. Imagine that the model outputs by mistake `[0,1,1,1,0]`, our approach would estimate the fourth class `Severe`, which the correct one might be `No DR`, which is a bad diagnosis and hurts the QWKP. Fortunately this cases is rare for a well trained model.
+
+Surprisingly, the three formulations are almost the same in practice, in terms of QWKP! Although the last two seem more intuitive. 
+However, the above discussion aims at triggering to consider the 3 approaches when dealing with ordinal targets prediction.
+
+In the work below, we use the multi-class formulation.
+
+
 
 
 
