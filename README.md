@@ -116,10 +116,6 @@ However, the above discussion aims at triggering to consider the 3 approaches wh
 
 In the work below, we use the multi-class formulation.
 
-
-
-
-
 # Model
 ## ConvNet model
 
@@ -177,16 +173,106 @@ In some cases, the confusion is slight (see the probabilities of 2 and 3 are clo
 In some cases, although correctly classified, but the features capture small nodules. Not sure if this is due to sensitivity to small variations, or it’s correct retina feature? Needs a specialist!
 
 ![small_model_ana_4_](imgs/small_model_ana_4_.png)
-In other cases, the features actually reflects luminance/light or shadows effects. This is reflects high sensitivity of the learnt features, so it's not capturing the class specific features.
 
+In other cases, the features actually reflects luminance/light or shadows effects. This is reflects high sensitivity of the learnt features, so it's not capturing the class specific features.
 
 
 ## ResNet50 model
 
+As suggested by the learning curves, we move to a bigger pre-trained model. We use ResNet50 backend, GlobalAveragePooling, and add few classification layers.
+
+```
+inp = layers.Input(shape=(sz,sz,3))
+conv_base = ResNet50(include_top=False,
+               weights='imagenet',
+               input_tensor=inp)
+
+x = layers.GlobalAveragePooling2D()(conv_base.output)
+x = layers.Dropout(0.5)(x)
+x = layers.Dense(1024, activation='relu')(x)
+x = layers.Dropout(0.5)(x)
+out = layers.Dense(n_classes, activation='softmax')(x)
+model = models.Model(inp, out)
+```
+The normal fine-tuning scenario would be:
+- Freeze the conv_base (ResNet)
+- Warm-up: train only the top layers
+- Unfreeze the conv_base
+- Fine tune top layers, or all conv_base
+
+However, in our case, ImageNet is completely different from APTOS data. So we have to fine tune the whole conv_base.
+
+
+## Treating class imbalance
+We use the cost-sensitive approach to treat class imabalance. In other words, we weight the minority class higher in the loss function, which has a similar effect to oversampling the minority samples. Data augmentation of the minority class only would cause bias in the model.
+
+We use the `class_weight` argument of the `fit` function in `tensorflow.keras`. To find the class weights we use `sklearn.utils.class_weights`:
+
+```
+from sklearn.utils import class_weight
+class_weights = class_weight.compute_class_weight('balanced', sorted(classes), y)
+```
+
+This is exactly equivalent to the following code:
+
+```
+s = sum(classes_cnts)
+n = len(classes)
+class_weights = np.array([s/(n*classes_cnts[cl]) for cl in sorted(classes)])
+```
+
+In both cases, we weight the class of higher count less, scaled by the total number of classes / total samples.
+
+
+## Optimization/Callbacks
+### ReduceLROnPlateau
+Using the `tensorflow.keras.callbacks.ReduceLROnPlateau` improves the results a lot, where the optimizer reduces the learning rate by a the argument `factor`, whenever the loss is not improving for some epochs decided by the `patience` argument. This prevents the model from overfitting. Short `patience=2` gives better results, since it tends to smooth the learning curve and prevent overfitting early.
+
+### Cyclic Learning Rate
+We used also the cyclic learning rate adjustment (see Leslie Smith [paper](https://arxiv.org/abs/1506.01186)), with Traingular2 pattern:
+
+![cyc_lr](https://www.pyimagesearch.com/wp-content/uploads/2019/07/keras_clr_header.png).
+
+In Keras, we use `tensorflow_addons.optimizers.CyclicalLearningRate` callback :
+
+```
+cyc_lr_schedule = tfa.optimizers.CyclicalLearningRate(#optimizers.schedules.CyclicalLearningRate(
+    initial_learning_rate=1e-4,
+    maximal_learning_rate=1e-2,
+    step_size=2000,
+    scale_fn=lambda x: 1.,
+    scale_mode="cycle",
+    name="MyCyclicScheduler")
+
+```
+
+Which can later be used with any optimizer:
+
+```
+optimizers.Adam(learning_rate=cyc_lr_schedule)
+```
+
+The result of QWKP is almost the same of ReduceLROnPlateau callback, but at slower and more smooth learning pattern.
+
+### Learning Rate Finder
+
+To decide on the initial learning rate, we used LRFinder callback, following also Leslie Smith [paper](https://arxiv.org/abs/1506.01186).
+For more details see this [colab](https://colab.research.google.com/drive/14OarguIiDPRS-IOjV7UeJWpUj1JGVxp-).
+
+This gives the same initial learning rate we used (=1e-4), for both `RMSprop` and `Adam`.
+
+### Learning curves
+
+Doing the above improvements we get the following learning curves:
+
+![resnet_learning_curves.png](imgs/resnet_learning_curves.png)
+
+The test accuracy improves to 81%, while the QWKP reaches around 0.88, which is close enough to the leaderboard (0.93).
+
+The model overfits around epoch 6. Without the `ReduceLROnPlateau`, overfitting happpens around epoch 2-3, with QWKP=0.79.  With more regularization, we could get closer to the leaderboard.
+
+
 ### Visualization of learnt features
 
-## Optimization
-### ReduceLROnPlateau
-### Early stopping
-### CyclicalLR
-## QWKP metric
+
+
