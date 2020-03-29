@@ -158,7 +158,7 @@ QWKP is around 0.77. Looking on the [leaderboard](https://www.kaggle.com/c/aptos
 
 ### Visualization of learnt features
 
-Let's look on the learnt features anyway:
+Let's look on the learnt features anyway. We will use [Grad-CAM](https://arxiv.org/abs/1610.02391) method. For more implementation details, please see this [colab](https://colab.research.google.com/drive/1Yxw8c5bq0eKU42uKOz-eh9_pcrHRXC2L).
 
 ![small_model_ana_1](imgs/small_model_ana_1.png)
 
@@ -275,7 +275,7 @@ The model overfits around epoch 6. Without the `ReduceLROnPlateau`, overfitting 
 
 After treating the class imbalance, let's have a look on the confusion matrix:
 
-![resnet_learning_curves](imgs/resnet_learning_curves.png)
+![resnet_conf_matrix](imgs/resnet_conf_matrix.png)
 
 As can be seen, the confusion is much less severe. The diagonal in all classes is the dominant number. However, confusions are still going to far dominant classes, like (4=Severe) mostly confused to (2=Moderate), which still hurts the QWKP. Further light oversampling/augmentation of class 4 could help (to be tried later).
 
@@ -283,6 +283,16 @@ As can be seen, the confusion is much less severe. The diagonal in all classes i
 Let's have a look on the learnt features.
 
 In ResNet, the final feature maps are course grids of `7x7`. Spreading these on the input image `224x224` might have coarse features (like ink spelt on paper).
+
+![resnet_ana_1](imgs/resnet_ana_1.png)
+
+In the above case, the correct class is (1=Mild) but the prediction is (2=Moderate). This won't hurt the QWKP a lot, moreover, it's justified looking on the spot leading to this prediction. So the model becomes to make more sense.
+
+![resnet_ana_2](imgs/resnet_ana_2.png)
+![resnet_ana_3](imgs/resnet_ana_3.png)
+
+The above two predictions are correct. The defective patterns are stil detected, without particular attention to the pupil feature (which is common in all classes so it's not good to detect). This is a good sign.
+
 
 
 
