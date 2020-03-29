@@ -265,14 +265,25 @@ This gives the same initial learning rate we used (=1e-4), for both `RMSprop` an
 
 Doing the above improvements we get the following learning curves:
 
-![resnet_learning_curves.png](imgs/resnet_learning_curves.png)
+![resnet_learning_curves](imgs/resnet_learning_curves.png)
 
 The test accuracy improves to 81%, while the QWKP reaches around 0.88, which is close enough to the leaderboard (0.93).
 
 The model overfits around epoch 6. Without the `ReduceLROnPlateau`, overfitting happpens around epoch 2-3, with QWKP=0.79.  With more regularization, we could get closer to the leaderboard.
 
+### Confusion matrix
+
+After treating the class imbalance, let's have a look on the confusion matrix:
+
+![resnet_learning_curves](imgs/resnet_learning_curves.png)
+
+As can be seen, the confusion is much less severe. The diagonal in all classes is the dominant number. However, confusions are still going to far dominant classes, like (4=Severe) mostly confused to (2=Moderate), which still hurts the QWKP. Further light oversampling/augmentation of class 4 could help (to be tried later).
 
 ### Visualization of learnt features
+Let's have a look on the learnt features.
+
+In ResNet, the final feature maps are course grids of `7x7`. Spreading these on the input image `224x224` might have coarse features (like ink spelt on paper).
+
 
 
 
