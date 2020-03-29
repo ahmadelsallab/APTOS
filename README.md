@@ -81,9 +81,9 @@ If you navigate in the Kaggle kernels of APTOS competetion, you will see three m
 
 | Problem | Loss | Network output | Comment| Example |
 |---------|:-----|:---------------|:-------|:--------|
-| Multi-class | Cross Entropy | Softmax/Class probabilities | Normal choice. But not good for QWKP, since CE favors only the correct class| [kernel kernel](https://www.kaggle.com/mathormad/aptos-resnet50-baseline)|
-| Regression | RMSE | Linear/Relu | If RMSE is small enough, this is good since the error/confusion will at max to the neighbor class| [kaggle kernel](https://www.kaggle.com/carlolepelaars/efficientnetb5-with-keras-aptos-2019)|
-| Multi-label | Binary Cross Entropy | Sigmoid | By formatting the ground truth labels such that the label is all ones until the correct prediction then all 0's. This encourages the model to output the correct class or at least the neighboring ones| [kernel kernel](https://www.kaggle.com/lextoumbourou/blindness-detection-resnet34-ordinal-targets)|
+| Multi-class | Cross Entropy | Softmax/Class probabilities | Normal choice. But not good for QWKP, since CE favors only the correct class| [Kaggle kernel](https://www.kaggle.com/mathormad/aptos-resnet50-baseline)|
+| Regression | RMSE | Linear/Relu | If RMSE is small enough, this is good since the error/confusion will at max to the neighbor class| [Kaggle kernel](https://www.kaggle.com/carlolepelaars/efficientnetb5-with-keras-aptos-2019)|
+| Multi-label | Binary Cross Entropy | Sigmoid | By formatting the ground truth labels such that the label is all ones until the correct prediction then all 0's. This encourages the model to output the correct class or at least the neighboring ones| [Kaggle kernel](https://www.kaggle.com/lextoumbourou/blindness-detection-resnet34-ordinal-targets)|
 
 In theory, formulating the problem as regression or multi-label classification seems better than multi-class classification, since cross entropy loss always focus on errors that caused the _correct_ label _not_ to be predicted, and hence optimizing in that direction. In other words, if the prediction is the class next to the correct one, this makes no difference to the cross entropy loss. 
 
