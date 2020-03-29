@@ -18,13 +18,13 @@ According to [this article](https://www.diabetes.co.uk/diabetes-complications/di
 - According to the NHS, 1,280 new cases of blindness caused by diabetic retinopathy are reported each year in England alone, while a further 4,200 people in the country are thought to be at risk of retinopathy-related vision loss.
 All people with diabetes should have a dilated eye examination at least once every year to check for diabetic retinopathy.
 
-## Why Computer Vision for DR diagnosis?
+## Why Computer Vision (CV) for DR diagnosis?
 
 According to the [APTOS Kaggle Comptetion home](https://www.kaggle.com/c/aptos2019-blindness-detection) page:
 
-_Millions of people suffer from diabetic retinopathy, the leading cause of blindness among working aged adults. Aravind Eye Hospital in India hopes to detect and prevent this disease among people living in rural areas where medical screening is difficult to conduct. _
+_Millions of people suffer from diabetic retinopathy, the leading cause of blindness among working aged adults. Aravind Eye Hospital in India hopes to detect and prevent this disease among people living in rural areas where medical screening is difficult to conduct._
 
-The need to AI:
+___The need to AI:___
 
 _Currently, Aravind technicians travel to these rural areas to capture images and then rely on highly trained doctors to review the images and provide diagnosis. Their goal is to scale their efforts through technology; to gain the ability to automatically screen images for disease and provide information on how severe the condition may be._
 
@@ -40,4 +40,8 @@ _Diabetic retinopathy can result in many serious issues affecting the blood vess
 
 _Diabetic retinopathy occurs when the damaged blood vessels leak blood and other fluids into your retina, causing swelling and blurry vision. The blood vessels can become blocked, scar tissue can develop, and retinal detachment can eventually occur._
 
+## AI that explains itself
 
+In this work, I was particularly interested in using AI and CV (mainly ConvNets), and visualize the learnt patterns by the ConvNet feature maps, to see if similar patterns as above (Cotton wool spots, Hemorrhages, hard Exudates, Aneurysm and Abnormal growth of blood vessels), are also detected by ConvNets?
+
+![APTOS_AI_Explanation](imgs/APTOS_AI_Explanation.png)
