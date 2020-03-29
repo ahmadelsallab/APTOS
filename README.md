@@ -44,4 +44,4 @@ _Diabetic retinopathy occurs when the damaged blood vessels leak blood and other
 
 In this work, I was particularly interested in using AI and CV (mainly ConvNets), and visualize the learnt patterns by the ConvNet feature maps, to see if similar patterns as above (Cotton wool spots, Hemorrhages, hard Exudates, Aneurysm and Abnormal growth of blood vessels), are also detected by ConvNets?
 
-![APTOS_AI_Explanation](imgs/APTOS_AI_Explanation.png)
+![APTOS_AI_Explanation](imgs/APTOS_AI_Explanation_2.png)
