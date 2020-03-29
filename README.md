@@ -10,10 +10,6 @@ ___Detect diabetic retinopathy to stop blindness before it's too late___
 _Source: [Medical Diagnosis with a Convolutional Neural Network, TowardsDataScience](https://medium.com/m/global-identity?redirectUrl=https%3A%2F%2Ftowardsdatascience.com%2Fmedical-diagnosis-with-a-convolutional-neural-network-ab0b6b455a20)_
 
 
-![DR_cotton_wool](https://sa1s3optim.patientpop.com/assets/images/provider/photos/1947516.jpeg)
-
-_Source" [Performance | Graph-R Project](https://www.graph-project.com/?page_id=632)
-
 According to [this article](https://www.diabetes.co.uk/diabetes-complications/diabetic-retinopathy.html):
 
 - Diabetic retinopathy is the most common form of diabetic eye disease. Diabetic retinopathy usually only affects people who have had diabetes (diagnosed or undiagnosed) for a significant number of years.
@@ -32,5 +28,16 @@ The need to AI:
 
 _Currently, Aravind technicians travel to these rural areas to capture images and then rely on highly trained doctors to review the images and provide diagnosis. Their goal is to scale their efforts through technology; to gain the ability to automatically screen images for disease and provide information on how severe the condition may be._
 
+![APTOS_AI](imgs/APTOS_AI.png)
+
+## How doctors diagnose DR?
+
+According to [www.eyeops.com](https://www.eyeops.com/contents/our-services/eye-diseases/diabetic-retinopathy), doctors look for at least 5 patterns as in the image below:
+
+![DR_cotton_wool](https://sa1s3optim.patientpop.com/assets/images/provider/photos/1947516.jpeg)
+
+_Diabetic retinopathy can result in many serious issues affecting the blood vessels that nourish the retina., Source [https://www.eyeops.com/](https://www.eyeops.com/contents/our-services/eye-diseases/diabetic-retinopathy)_
+
+_Diabetic retinopathy occurs when the damaged blood vessels leak blood and other fluids into your retina, causing swelling and blurry vision. The blood vessels can become blocked, scar tissue can develop, and retinal detachment can eventually occur._
 
 
